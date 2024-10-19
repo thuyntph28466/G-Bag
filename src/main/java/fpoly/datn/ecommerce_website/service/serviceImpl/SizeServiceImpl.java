@@ -41,6 +41,7 @@ public class SizeServiceImpl implements ServiceGenarel <Sizes>  {
 
     @Override
     public Sizes update(Sizes size) {
+
         return iSizeReponsitory.save(size);
     }
 
