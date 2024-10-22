@@ -1,6 +1,7 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.MaterialDTO;
+import fpoly.datn.ecommerce_website.dto.ProducerDTO;
 import fpoly.datn.ecommerce_website.entity.Materials;
 import fpoly.datn.ecommerce_website.service.serviceImpl.MaterialServiceImpl;
 import jakarta.validation.Valid;
@@ -74,8 +75,9 @@ public class MaterialRestController {
 
 
     @RequestMapping(value = "/material", method = RequestMethod.PUT)
-    public ResponseEntity<Materials> update(@RequestBody @Valid MaterialDTO materialDTO) {
+    public ResponseEntity<Materials> update(@Valid @RequestParam String id, @RequestBody MaterialDTO materialDTO) {
         Materials material = modelMapper.map(materialDTO, Materials.class);
+        material.setMaterialId(id);
         return new ResponseEntity<>(
                 this.materialService.save(material)
                 , HttpStatus.OK);

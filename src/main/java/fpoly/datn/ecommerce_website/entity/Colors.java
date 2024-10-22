@@ -26,7 +26,8 @@ public class Colors {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "color_id")
-    private UUID colorId;
+    private String colorId;
+
 
     @Column(name = "color_code")
     private String colorCode;

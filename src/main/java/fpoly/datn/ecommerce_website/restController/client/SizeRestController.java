@@ -1,7 +1,10 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.SizeDTO;
+import fpoly.datn.ecommerce_website.dto.TypeDTO;
+import fpoly.datn.ecommerce_website.entity.Producers;
 import fpoly.datn.ecommerce_website.entity.Sizes;
+import fpoly.datn.ecommerce_website.entity.Types;
 import fpoly.datn.ecommerce_website.service.serviceImpl.SizeServiceImpl;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -72,12 +75,15 @@ public class SizeRestController {
 
 
     @RequestMapping(value = "/size", method = RequestMethod.PUT)
-    public ResponseEntity<Sizes> update(@RequestBody SizeDTO sizeDTO) {
+    public ResponseEntity<Sizes> update(@Valid @RequestParam String id,@RequestBody SizeDTO sizeDTO) {
         Sizes size = modelMapper.map(sizeDTO, Sizes.class);
+        size.setSizeId(id);
         return new ResponseEntity<>(
                 this.sizeService.save(size)
                 , HttpStatus.OK
         );
+
+
     }
 
     @RequestMapping(value = "/size/update-status", method = RequestMethod.PUT)

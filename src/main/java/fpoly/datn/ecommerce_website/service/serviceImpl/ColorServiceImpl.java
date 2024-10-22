@@ -42,6 +42,7 @@ public class ColorServiceImpl implements ServiceGenarel<Colors> {
 
     @Override
     public Colors update(Colors entity) {
+
         return this.iColorReponsitory.save(entity);
     }
 

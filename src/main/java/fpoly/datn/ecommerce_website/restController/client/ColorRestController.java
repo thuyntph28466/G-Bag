@@ -1,6 +1,7 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.ColorDTO;
+import fpoly.datn.ecommerce_website.dto.CompartmentDTO;
 import fpoly.datn.ecommerce_website.entity.Colors;
 import fpoly.datn.ecommerce_website.service.serviceImpl.ColorServiceImpl;
 import jakarta.validation.Valid;
@@ -67,8 +68,9 @@ public class ColorRestController {
     }
 
     @RequestMapping(value = "/color", method = RequestMethod.PUT)
-    public ResponseEntity<Colors> update(@RequestBody ColorDTO colorDTO) {
+    public ResponseEntity<Colors> update(@Valid @RequestParam String id,@RequestBody ColorDTO colorDTO) {
         Colors color = modelMapper.map(colorDTO, Colors.class);
+        color.setColorId(id);
         return new ResponseEntity<>(
                 this.colorService.save(color)
                 , HttpStatus.OK
