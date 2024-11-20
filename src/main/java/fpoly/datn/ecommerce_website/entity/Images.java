@@ -17,7 +17,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "imagea"  )
+@Table(name = "images"  )
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

@@ -28,7 +28,7 @@ public class ProducerRestController {
     private IProducerService producerService;
 
     //GetAll
-    @RequestMapping(value = "/producer/", method = RequestMethod.GET)
+    @RequestMapping(value = "/producer", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         List<Producers> sizePage = this.producerService.findAll();
 
@@ -49,7 +49,7 @@ public class ProducerRestController {
     }
 
     //GetOne
-    @RequestMapping(value = "/producer", method = RequestMethod.GET)
+    @RequestMapping(value = "/producer/getdetail", method = RequestMethod.GET)
     public ResponseEntity<ProducerDTO> getOne(@RequestParam String id) {
         return new ResponseEntity<>(
                 modelMapper.map(this.producerService.findById(id), ProducerDTO.class)

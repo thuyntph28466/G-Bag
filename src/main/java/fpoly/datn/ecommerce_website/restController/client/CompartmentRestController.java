@@ -28,7 +28,7 @@ public class CompartmentRestController {
     private CompartmentService compartmentService;
 
     //hien thi
-    @RequestMapping(value = "/compartment/", method = RequestMethod.GET)
+    @RequestMapping(value = "/compartment", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         List<Compartments> materialsList =  this.compartmentService.findAll();
         List<Compartments> filtered = materialsList.stream()
@@ -47,7 +47,7 @@ public class CompartmentRestController {
     }
 
     //getOne
-    @RequestMapping(value = "/compartment", method = RequestMethod.GET)
+    @RequestMapping(value = "/compartment/detail", method = RequestMethod.GET)
     public ResponseEntity<CompartmentDTO> getOne(@RequestParam String id) {
 
         return new ResponseEntity<>(

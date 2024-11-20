@@ -32,7 +32,7 @@ public class ColorServiceImpl implements ServiceGenarel<Colors> {
     @Override
     public Colors findById(String id) {
 
-        return this.iColorReponsitory.findById(UUID.fromString(id)).get();
+        return this.iColorReponsitory.findById(id).get();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ColorServiceImpl implements ServiceGenarel<Colors> {
     }
 
     public Colors updateStatus(String id, int status) {
-        Colors color = iColorReponsitory.findById(UUID.fromString(id)).get();
+        Colors color = iColorReponsitory.findById(id).get();
         color.setColorStatus(status);
         return iColorReponsitory.save(color);
 
@@ -55,7 +55,7 @@ public class ColorServiceImpl implements ServiceGenarel<Colors> {
 
     @Override
     public String delete(String id) {
-        iColorReponsitory.deleteById(UUID.fromString(id));
+        iColorReponsitory.deleteById(id);
         return "Delete successfully";
     }
 

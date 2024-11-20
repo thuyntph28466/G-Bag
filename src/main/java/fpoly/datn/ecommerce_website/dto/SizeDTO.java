@@ -7,7 +7,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class SizeDTO {
-    private UUID sizeId;
+    private String sizeId;
     private String sizeCode;
     private String sizeName;
     private String sizeLength;

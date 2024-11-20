@@ -29,7 +29,7 @@ public class BuckleTypeRestController {
     private BuckleTypeService buckleTypeService;
 
     //hien thi
-    @RequestMapping(value = "/buckletype/", method = RequestMethod.GET)
+    @RequestMapping(value = "/buckletype", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         List<BuckleTypes> sizePage = this.buckleTypeService.findAll();
 
@@ -50,7 +50,7 @@ public class BuckleTypeRestController {
         return ResponseEntity.ok(buckleTypeService.findAllPagination(pageNum, pageSize));
     }
 
-    @RequestMapping(value = "/buckletype", method = RequestMethod.GET)
+    @RequestMapping(value = "/buckletype/detail", method = RequestMethod.GET)
     public ResponseEntity<BuckleTypeDTO> getOne(@RequestParam String id) {
         return new ResponseEntity<>(
                 modelMapper.map(this.buckleTypeService.findById(id), BuckleTypeDTO.class)
@@ -62,11 +62,12 @@ public class BuckleTypeRestController {
     @RequestMapping(value = "/buckletype", method = RequestMethod.POST)
     public ResponseEntity<?> add(@RequestBody @Valid BuckleTypeDTO buckletypeDTO
     ) {
-        return new ResponseEntity<>(
-                buckleTypeService.save(
-                        modelMapper.map(buckletypeDTO, BuckleTypes.class))
-                , HttpStatus.OK);
-
+            BuckleTypes buck = modelMapper.map(buckletypeDTO, BuckleTypes.class);
+buck.setBuckleTypeId(null);
+            return new ResponseEntity<>(
+                    this.buckleTypeService.save(buck)
+                    , HttpStatus.OK
+            );
 
     }
 

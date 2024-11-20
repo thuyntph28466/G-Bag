@@ -30,11 +30,11 @@ public class TypeRestController {
 
 
     //GetAll
-    @RequestMapping(value = "/type/", method = RequestMethod.GET)
+    @RequestMapping(value = "/type", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         List<Types> colorsList = this.typeService.findAll();
         List<Types> filtered = colorsList.stream()
-                .filter(color -> color.getTypeStatus() == 1)
+                .filter(types -> types.getTypeStatus() == 1)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(
@@ -51,7 +51,7 @@ public class TypeRestController {
     }
 
     //GetOne
-    @RequestMapping(value = "/type", method = RequestMethod.GET)
+    @RequestMapping(value = "/type/", method = RequestMethod.GET)
     public ResponseEntity<TypeDTO> getOne(@RequestParam String id) {
         return new ResponseEntity<>(
                 modelMapper.map(this.typeService.findById(id), TypeDTO.class)
@@ -92,12 +92,11 @@ public class TypeRestController {
     }
 
     //Delete
+
     @RequestMapping(value = "/type", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@RequestParam @Valid String id) {
-        this.typeService.delete(id);
-        return new ResponseEntity<>(
-                "Delete Successfuly"
-                , HttpStatus.OK);
+    public ResponseEntity<?> delete(@RequestParam String id) {
+        return new ResponseEntity<>(this.typeService.delete(id), HttpStatus.OK);
+
     }
     //End
 }

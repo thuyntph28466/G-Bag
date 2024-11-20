@@ -9,7 +9,7 @@ import java.util.UUID;
 @Setter
 
 public class BuckleTypeDTO {
-    private UUID buckleTypeId;
+    private String buckleTypeId;
 
     @NotBlank(message = "Không để trống code")
     private String buckleTypeCode;

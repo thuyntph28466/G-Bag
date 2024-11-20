@@ -93,7 +93,7 @@ public class SizeRestController {
 
     }
 
-    @RequestMapping(value = "/size", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/size/delete", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@RequestParam String id) {
         this.sizeService.delete(id);
         return new ResponseEntity<>(

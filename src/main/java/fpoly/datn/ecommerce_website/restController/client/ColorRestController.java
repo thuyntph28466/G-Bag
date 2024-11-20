@@ -40,19 +40,18 @@ public class ColorRestController {
                 (colorPage, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/color/", method = RequestMethod.GET)
+    @RequestMapping(value = "/color", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
 
     ) {
         List<Colors> allColors  = colorService.findAll();
-        List<Colors> filteredColors = allColors.stream()
-                .filter(color -> color.getColorStatus() == 1)
-                .collect(Collectors.toList());
+        List<Colors> filteredColors = allColors;
+
         return new ResponseEntity<>
                 (filteredColors, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/color", method = RequestMethod.GET)
+    @RequestMapping(value = "/color/one", method = RequestMethod.GET)
     public ResponseEntity<ColorDTO> getOne(@RequestParam String id) {
         return new ResponseEntity<>(
                 modelMapper.map(this.colorService.findById(id), ColorDTO.class)
@@ -62,6 +61,7 @@ public class ColorRestController {
     @RequestMapping(value = "/color", method = RequestMethod.POST)
     public ResponseEntity<Colors> save(@RequestBody ColorDTO colorDTO) {
         Colors color = modelMapper.map(colorDTO, Colors.class);
+        color.setColorId(null);
         return new ResponseEntity<>(
                 this.colorService.save(color)
                 , HttpStatus.OK);

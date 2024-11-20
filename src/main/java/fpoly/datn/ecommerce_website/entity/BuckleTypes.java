@@ -14,7 +14,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "buckletypes")
+@Table(name = "buckle_types")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

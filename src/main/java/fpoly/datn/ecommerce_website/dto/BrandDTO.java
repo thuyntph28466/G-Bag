@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -14,10 +16,7 @@ import lombok.Setter;
 
 public class BrandDTO {
     private String brandId;
-    @NotBlank
     private String brandCode;
-    @NotBlank
     private String brandName;
-
     private Integer brandStatus;
 }

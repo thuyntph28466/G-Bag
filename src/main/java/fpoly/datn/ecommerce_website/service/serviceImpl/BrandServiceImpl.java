@@ -17,18 +17,10 @@ import java.util.List;
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private IBrandRepository iBrandRepository;
-
     @Override
     public List<Brands> findAll() {
         return iBrandRepository.findAll();
     }
-
-    @Override
-    public Page<Brands> findAllPagination(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page,size);
-        return this.iBrandRepository.findAllPagination(pageable);
-    }
-
     @Override
     public Brands findById(String id) {
         return iBrandRepository.findById(id).get();
@@ -36,24 +28,13 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brands save(Brands entity) {
-
         return iBrandRepository.save(entity);
     }
-
     @Override
     public Brands update( Brands entity) {
         return
                 iBrandRepository.save((entity)) ;
     }
-
-    @Override
-    public Brands updateStatus(String id, Integer status) {
-        Brands x = iBrandRepository.findById(id).get();
-        x.setBrandStatus(status);
-        return iBrandRepository.save(x);
-
-    }
-
     @Override
     public String delete(String id) {
         iBrandRepository.deleteById(id);

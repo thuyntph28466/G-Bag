@@ -21,10 +21,12 @@ import lombok.Setter;
 @Getter
 @Builder
 public class Brands {
+
     @Id
-    @Column(name = "brand_id")
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "brand_id")
     private String brandId;
+
 
     @Column(name = "brand_code")
     private String brandCode;
@@ -35,3 +37,4 @@ public class Brands {
     @Column(name = "brand_status")
     private Integer brandStatus;
 }
+

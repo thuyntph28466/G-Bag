@@ -38,7 +38,7 @@ import org.springframework.web.filter.CorsFilter;
 //                    .jwtAuthenticationConverter(jwtAuthenticationConverter()))
 //                    .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
             httpSecurity.csrf(AbstractHttpConfigurer::disable);
-
+            httpSecurity.cors(AbstractHttpConfigurer::disable);
             return httpSecurity.build();
         }
 

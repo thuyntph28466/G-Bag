@@ -1,5 +1,6 @@
 package fpoly.datn.ecommerce_website.service.serviceImpl;
 
+import fpoly.datn.ecommerce_website.entity.Materials;
 import fpoly.datn.ecommerce_website.entity.Types;
 import fpoly.datn.ecommerce_website.repository.ITypeRepository;
 import fpoly.datn.ecommerce_website.service.TypeService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TypeServiceImpl implements TypeService {
@@ -55,8 +57,14 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public String delete(String id) {
-        typeRepository.deleteById(id);
-return "Delete successfully";
+        Optional<Types> optional = typeRepository.findById(id);
+        if (optional.isPresent()) {
+            Types kh = optional.get();
+            typeRepository.delete(kh);
+            return "Delete successfully";
+        } else {
+            return "Delete Unsuccessfully";
+        }
     }
 
     @Override

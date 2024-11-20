@@ -9,15 +9,12 @@ import java.util.List;
 public interface BrandService {
         List<Brands> findAll();
 
-        Page<Brands> findAllPagination(Integer page, Integer size);
 
         Brands findById(String id);
 
        Brands save(Brands entity);
 
         Brands update(Brands entity);
-
-         Brands updateStatus(String id, Integer status);
 
         String delete(String id);
 

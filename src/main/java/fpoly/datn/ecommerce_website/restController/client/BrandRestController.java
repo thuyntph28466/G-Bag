@@ -1,7 +1,9 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.BrandDTO;
+import fpoly.datn.ecommerce_website.dto.ColorDTO;
 import fpoly.datn.ecommerce_website.entity.Brands;
+import fpoly.datn.ecommerce_website.entity.Colors;
 import fpoly.datn.ecommerce_website.service.serviceImpl.BrandServiceImpl;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -27,17 +29,17 @@ public class BrandRestController {
     private BrandServiceImpl brandService;
 
     //GetAllPage
-    @RequestMapping(value = "/brand/pagination", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(
-            @RequestParam(name = "page", defaultValue = "0") int pageNum,
-            @RequestParam(name = "size", defaultValue = "15") int pageSize
-    ) {
-        Page<Brands> brandPage = brandService.findAllPagination(pageNum, pageSize);
-        return new ResponseEntity<>
-                (brandPage, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/brand/pagination", method = RequestMethod.GET)
+//    public ResponseEntity<?> getAll(
+//            @RequestParam(name = "page", defaultValue = "0") int pageNum,
+//            @RequestParam(name = "size", defaultValue = "15") int pageSize
+//    ) {
+//        Page<Brands> brandPage = brandService.findAllPagination(pageNum, pageSize);
+//        return new ResponseEntity<>
+//                (brandPage, HttpStatus.OK);
+//    }
 
-    @RequestMapping(value = "/brand/", method = RequestMethod.GET)
+    @RequestMapping(value = "/brand", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
     ) {
         List<Brands> brandPage = brandService.findAll();
@@ -46,7 +48,7 @@ public class BrandRestController {
     }
 
     //GetOne
-    @RequestMapping(value = "/brand", method = RequestMethod.GET)
+    @RequestMapping(value = "/brand/{id}", method = RequestMethod.GET)
     public ResponseEntity<BrandDTO> getOne(@Valid @RequestParam String id) {
         return new ResponseEntity<>(
                 modelMapper.map(this.brandService.findById(id), BrandDTO.class)
@@ -54,13 +56,15 @@ public class BrandRestController {
     }
 
     //Add
-    @RequestMapping(value = "/brand", method = RequestMethod.POST)
+    @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
     public ResponseEntity<Brands> save(@Valid @RequestBody BrandDTO brandDTO) {
         Brands brand = modelMapper.map(brandDTO, Brands.class);
+        brand.setBrandId(null);
         return new ResponseEntity<>(
                 this.brandService.save(brand)
                 , HttpStatus.OK);
     }
+
 
 //    @RequestMapping(value = "/brand/{id}", method = RequestMethod.PUT)
 //    public ResponseEntity<Brands> update(@RequestBody BrandDTO brandDTO, @PathVariable("id") String id) {
@@ -72,7 +76,7 @@ public class BrandRestController {
 //        }
 //    }
 
-    @RequestMapping(value = "/brand", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public ResponseEntity<Brands> update(@Valid @RequestParam String id, @RequestBody BrandDTO brandDTO) {
         Brands brand = modelMapper.map(brandDTO, Brands.class);
         brand.setBrandId(id);
@@ -82,16 +86,10 @@ public class BrandRestController {
     }
 
 
-    @RequestMapping(value = "/brand/update-status", method = RequestMethod.PUT)
-    public ResponseEntity<Brands> updateStatus(@Valid @RequestParam String id, @RequestParam int status) {
-        return new ResponseEntity<>(brandService.updateStatus(id, status),
-                HttpStatus.OK);
-
-    }
 
 
     //Delete
-    @RequestMapping(value = "/brand", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@RequestParam String id) {
         this.brandService.delete(id);
         return new ResponseEntity<>(

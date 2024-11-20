@@ -68,6 +68,7 @@ public class MaterialRestController {
     @RequestMapping(value = "/material", method = RequestMethod.POST)
     public ResponseEntity<Materials> add(@RequestBody @Valid MaterialDTO materialDTO) {
         Materials material = modelMapper.map(materialDTO, Materials.class);
+        material.setMaterialId(null);
         return new ResponseEntity<>(
                 this.materialService.save(material)
                 , HttpStatus.OK);
