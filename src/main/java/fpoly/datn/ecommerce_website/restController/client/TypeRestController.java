@@ -1,7 +1,11 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 
+import fpoly.datn.ecommerce_website.dto.MaterialDTO;
+import fpoly.datn.ecommerce_website.dto.SizeDTO;
 import fpoly.datn.ecommerce_website.dto.TypeDTO;
+import fpoly.datn.ecommerce_website.entity.Materials;
+import fpoly.datn.ecommerce_website.entity.Sizes;
 import fpoly.datn.ecommerce_website.entity.Types;
 import fpoly.datn.ecommerce_website.service.TypeService;
 import jakarta.validation.Valid;
@@ -9,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,24 +72,8 @@ public class TypeRestController {
                 , HttpStatus.OK);
     }
 
-    //    Update
-//    @RequestMapping(value = "/type", method = RequestMethod.PUT)
-//    public ResponseEntity<Type> update(@RequestBody @Valid TypeDTO typeDTO) {
-//        Type type = modelMapper.map(typeDTO, Type.class);
-//        return new ResponseEntity<>(
-//                this.typeService.save(type)
-//                , HttpStatus.OK);
-//    }
-    @RequestMapping(value = "/type", method = RequestMethod.PUT)
-    public ResponseEntity<Types> update(@Valid @RequestParam String id, @RequestBody TypeDTO typeDTO) {
-        Types type = modelMapper.map(typeDTO, Types.class);
-        type.setTypeId(id);
-        return new ResponseEntity<>(
-                this.typeService.update(id,type)
-                , HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "/type/update-status", method = RequestMethod.PUT)
+        @RequestMapping(value = "/type/update-status", method = RequestMethod.PUT)
     public ResponseEntity<Types> updateStatus(@Valid @RequestParam String id, @RequestParam int status) {
         return new ResponseEntity<>(typeService.updateStatus(id, status),
                 HttpStatus.OK);

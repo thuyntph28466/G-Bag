@@ -77,7 +77,12 @@ public class ProductRestController {
                 modelMapper.map(this.productService.findById(id), ProductDTO.class)
                 , HttpStatus.OK);
     }
-
+    @RequestMapping(value = "/product/findMa", method = RequestMethod.GET)
+    public ResponseEntity<?> getMa(@RequestParam("ma") String ma) {
+        return new ResponseEntity<>(
+                modelMapper.map(this.productService.findByProductCode(ma), ProductDTO.class)
+                , HttpStatus.OK);
+    }
     //add
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     public ResponseEntity<?> add(@Valid @RequestBody Product_BrandDTO productBrandDTO) {

@@ -6,8 +6,11 @@ import fpoly.datn.ecommerce_website.entity.Products;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProductService {
+
+    Optional<Products> findByProductCode(String productCode);
 
     String GetproductStatusString(int productStatus);
 

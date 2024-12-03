@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,15 +68,21 @@ public class ColorRestController {
                 , HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/color", method = RequestMethod.PUT)
-    public ResponseEntity<Colors> update(@Valid @RequestParam String id,@RequestBody ColorDTO colorDTO) {
+    @RequestMapping(value = "/color/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Colors> update(@PathVariable String id, @RequestBody ColorDTO colorDTO) {
         Colors color = modelMapper.map(colorDTO, Colors.class);
         color.setColorId(id);
-        return new ResponseEntity<>(
-                this.colorService.save(color)
-                , HttpStatus.OK
-        );
+
+        // Kiểm tra xem màu sắc có tồn tại trong cơ sở dữ liệu không
+        Colors updatedColor = this.colorService.save(color);
+        if (updatedColor == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Nếu không tìm thấy
+        }
+
+        return new ResponseEntity<>(updatedColor, HttpStatus.OK); // Cập nhật thành công
     }
+
+
 
     @RequestMapping(value = "/color/update-status", method = RequestMethod.PUT)
     public ResponseEntity<Colors> updateStatus(@Valid @RequestParam String id, @RequestParam int status) {

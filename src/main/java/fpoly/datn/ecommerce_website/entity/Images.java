@@ -1,6 +1,7 @@
 package fpoly.datn.ecommerce_website.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.sql.Blob;
 
 
 @Entity
@@ -29,20 +32,15 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String imageId;
 
-    @Column(name = "image_code")
-    private String imgCode;
-
-    @Column(name = "image_name")
-    private String imgName;
-
-    @Column(name = "image_url")
-    private String imgUrl;
 
     @Column(name = "isPrimary")
     private Boolean isPrimary;
+    @JsonIgnore
+    @Column(name = "data")
+    private Blob data;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_detail_id")
     @JsonBackReference
-    private Products product;
+    private ProductDetails productDetails;
 }

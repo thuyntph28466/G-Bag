@@ -2,15 +2,19 @@ package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.BrandDTO;
 import fpoly.datn.ecommerce_website.dto.ColorDTO;
+import fpoly.datn.ecommerce_website.dto.UserDTO;
 import fpoly.datn.ecommerce_website.entity.Brands;
 import fpoly.datn.ecommerce_website.entity.Colors;
+import fpoly.datn.ecommerce_website.entity.Users;
 import fpoly.datn.ecommerce_website.service.serviceImpl.BrandServiceImpl;
+import fpoly.datn.ecommerce_website.service.serviceImpl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +26,12 @@ import java.util.List;
 
 @RequestMapping("/api")
 @RestController
-public class BrandRestController {
+public class UserRestController {
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    private BrandServiceImpl brandService;
+    private UserServiceImpl userService;
 
     //GetAllPage
 //    @RequestMapping(value = "/brand/pagination", method = RequestMethod.GET)
@@ -40,53 +44,50 @@ public class BrandRestController {
 //                (brandPage, HttpStatus.OK);
 //    }
 
-    @RequestMapping(value = "/brand", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(
     ) {
-        List<Brands> brandPage = brandService.findAll();
+        List<Users> brandPage = userService.findAll();
         return new ResponseEntity<>
                 (brandPage, HttpStatus.OK);
     }
 
     //GetOne
-    @RequestMapping(value = "/brand/{id}", method = RequestMethod.GET)
-    public ResponseEntity<BrandDTO> getOne(@Valid @RequestParam String id) {
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> getOne(@Valid @RequestParam String id) {
         return new ResponseEntity<>(
-                modelMapper.map(this.brandService.findById(id), BrandDTO.class)
+                modelMapper.map(this.userService.findById(id), UserDTO.class)
                 , HttpStatus.OK);
     }
 
     //Add
-    @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
-    public ResponseEntity<Brands> save(@Valid @RequestBody BrandDTO brandDTO) {
-        Brands brand = modelMapper.map(brandDTO, Brands.class);
-        brand.setBrandId(null);
-        return new ResponseEntity<>(
-                this.brandService.save(brand)
-                , HttpStatus.OK);
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public ResponseEntity<?> save(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>("Invalid input", HttpStatus.BAD_REQUEST);
+        }
+
+        // Chuyển đổi từ DTO sang Entity
+        Users user = modelMapper.map(userDTO, Users.class);
+        user.setUserId(null);  // Không cần set userId nếu là UUID tự động
+
+        Users savedUser = userService.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
 
-//    @RequestMapping(value = "/brand/{id}", method = RequestMethod.PUT)
-//    public ResponseEntity<Brands> update(@RequestBody BrandDTO brandDTO, @PathVariable("id") String id) {
-//        Brands updatedBrand = this.brandService.update(brandDTO, id);
-//        if (updatedBrand != null) {
-//            return new ResponseEntity<>(updatedBrand, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 
-    @RequestMapping(value = "/update/color/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Brands> update(@PathVariable String id, @RequestBody BrandDTO brandDTO) {
+
+    @RequestMapping(value = "/update/user/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Users> update(@PathVariable String id, @RequestBody UserDTO brandDTO) {
         // Chuyển đổi từ BrandDTO sang Brands (đối tượng thực tế cần cập nhật)
-        Brands brand = modelMapper.map(brandDTO, Brands.class);
+        Users brand = modelMapper.map(brandDTO, Users.class);
 
         // Gán ID cho đối tượng Brand
-        brand.setBrandId(id);
+        brand.setUserId(id);
 
         // Cập nhật đối tượng Brand trong service
-        Brands updatedBrand = this.brandService.update(brand);
+        Users updatedBrand = this.userService.update(brand);
 
         if (updatedBrand == null) {
             // Nếu không tìm thấy đối tượng để cập nhật, trả về mã lỗi 404
@@ -102,9 +103,9 @@ public class BrandRestController {
 
 
     //Delete
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/user", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@RequestParam String id) {
-        this.brandService.delete(id);
+        this.userService.delete(id);
         return new ResponseEntity<>(
                 "Delete Successfuly"
                 , HttpStatus.OK);

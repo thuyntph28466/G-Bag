@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,17 +75,21 @@ public class SizeRestController {
     }
 
 
-    @RequestMapping(value = "/size", method = RequestMethod.PUT)
-    public ResponseEntity<Sizes> update(@Valid @RequestParam String id,@RequestBody SizeDTO sizeDTO) {
+    @RequestMapping(value = "/size/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Sizes> update(@PathVariable String id, @RequestBody SizeDTO sizeDTO) {
+        // Chuyển đổi từ SizeDTO sang Sizes (đối tượng thực tế cần cập nhật)
         Sizes size = modelMapper.map(sizeDTO, Sizes.class);
+
+        // Gán ID cho đối tượng Size
         size.setSizeId(id);
-        return new ResponseEntity<>(
-                this.sizeService.save(size)
-                , HttpStatus.OK
-        );
 
+        // Lưu hoặc cập nhật đối tượng Size
+        Sizes updatedSize = this.sizeService.save(size);
 
+        // Nếu cập nhật thành công, trả về đối tượng cập nhật và mã trạng thái OK
+        return new ResponseEntity<>(updatedSize, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/size/update-status", method = RequestMethod.PUT)
     public ResponseEntity<Sizes> updateStatus(@Valid @RequestParam String id, @RequestParam int status) {

@@ -9,6 +9,8 @@ import fpoly.datn.ecommerce_website.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -34,5 +36,30 @@ public class UserServiceImpl implements IUserService {
     private String generateToken(Users user) {
         // Logic tạo token (JWT, hoặc token đơn giản)
         return "dummyToken";
+    }
+
+    @Override
+    public List<Users> findAll() {
+        return this.userRepository.findAll();
+    }
+
+    @Override
+    public Users findById(String id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public Users save(Users entity) {
+        return userRepository.save(entity);
+    }
+
+    @Override
+    public Users update(Users entity) {
+        return userRepository.save(entity);    }
+
+    @Override
+    public String delete(String id) {
+        userRepository.deleteById(id);
+        return "Delete successfully";
     }
 }

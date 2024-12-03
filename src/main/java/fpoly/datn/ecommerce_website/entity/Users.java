@@ -15,6 +15,8 @@ import lombok.ToString;
 
 import javax.management.relation.Role;
 import java.sql.Date;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -34,7 +36,7 @@ public class Users {
     private String fullName;
 
     @Column(name = "birthday")
-    private Date birthDay;
+    private LocalDate birthDay;
 
     @Column(name = "account")
     private String account;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,11 @@ public class ImagesServiceImpl implements IImagesService {
         return this.iImageRepository.findAll().stream()
                 .map(img -> modelMapper.map(img,ImageDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Images> findById(String s) {
+        return iImageRepository.findById(s);
     }
 
     @Override
