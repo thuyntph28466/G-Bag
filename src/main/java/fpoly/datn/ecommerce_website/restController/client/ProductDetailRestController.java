@@ -154,12 +154,6 @@ public class ProductDetailRestController {
 
 
 
-
-
-
-
-
-
 //    //update
     @RequestMapping(value = "/product-details/update-status", method = RequestMethod.PUT)
     public ResponseEntity<?> update(@RequestParam String productDetailId, @RequestParam int status) {
@@ -168,7 +162,7 @@ public class ProductDetailRestController {
                 , HttpStatus.OK);
     }
 
-//
+
 //    //delete
     @RequestMapping(value = "/product-details", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@RequestParam String productDetailId) {
@@ -185,8 +179,6 @@ public class ProductDetailRestController {
                         .collect(Collectors.toList())
                 , HttpStatus.OK
         );
-
-
     }
     @RequestMapping(value = "product-detail/getProductDetailsByProductId/{productId}", method = RequestMethod.GET)
     public ResponseEntity<?> getAllbyproductId(@PathVariable String productId) {

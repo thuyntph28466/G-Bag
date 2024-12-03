@@ -48,7 +48,6 @@ public class Products {
     private Brands brand;
 
 
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    @JsonManagedReference
     @JsonIgnoreProperties("product")

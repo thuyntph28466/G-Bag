@@ -31,6 +31,6 @@ public class ProductDTO {
     private Integer productStatus;
 
     private Brands brand;
-    private List<Images> images;
+    
     private List<ProductDetails> productDetails;
 }
