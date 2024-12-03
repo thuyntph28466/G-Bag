@@ -1,11 +1,14 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.ImageDTO;
+import fpoly.datn.ecommerce_website.dto.ProductDTO;
 import fpoly.datn.ecommerce_website.dto.ProductDetailDTO;
 import fpoly.datn.ecommerce_website.entity.Images;
 import fpoly.datn.ecommerce_website.entity.ProductDetails;
+import fpoly.datn.ecommerce_website.entity.Products;
 import fpoly.datn.ecommerce_website.service.IImagesService;
 import fpoly.datn.ecommerce_website.service.serviceImpl.ProductDetailServiceImpl;
+import fpoly.datn.ecommerce_website.service.serviceImpl.ProductServiceImpl;
 import fpoly.datn.ecommerce_website.util.FileImgUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,6 +47,8 @@ public class ProductDetailRestController {
 
     @Autowired
     private ProductDetailServiceImpl productDetailService;
+@Autowired
+private ProductServiceImpl productService;
 
     @Autowired
     private IImagesService imagesService;
@@ -123,12 +128,17 @@ public class ProductDetailRestController {
                 (productPage, HttpStatus.OK);
     }
 
-
-
     //add
     @RequestMapping(value = "/product-details", method = RequestMethod.POST, consumes = "multipart/form-data")
     public ResponseEntity<?> save(@Valid @ModelAttribute ProductDetailDTO productDetailDTO,@RequestParam("image") MultipartFile image) {
         System.out.println(productDetailDTO);
+        Products productDTO = new Products();
+        productDTO.setProductId(null);
+        productDTO.setProductName(productDetailDTO.getProduct().getProductName());
+        productDTO.setProductCode(productDetailDTO.getProduct().getProductCode());
+        productDTO.setBrand(productDetailDTO.getProduct().getBrand());
+        Products productsaved = productService.save(productDTO);
+        productDetailDTO.setProduct(productsaved);
         ImageDTO imageDTO = new ImageDTO();
         imageDTO.setImageId(null);
         imageDTO.setIsPrimary(Boolean.TRUE);
