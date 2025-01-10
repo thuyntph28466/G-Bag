@@ -67,4 +67,5 @@ public class UserServiceImpl implements IUserService {
     public Users findByPhoneNumberEquals(String phoneNumber) {
         return userRepository.findByPhoneNumberEquals(phoneNumber);
     }
+
 }

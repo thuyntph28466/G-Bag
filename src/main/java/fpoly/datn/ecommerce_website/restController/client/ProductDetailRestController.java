@@ -171,7 +171,7 @@ private ProductServiceImpl productService;
                     "Tên balo không được để trống "
                     , HttpStatus.BAD_REQUEST);
         }
-       
+
         System.out.println(productDetailDTO);
         Products productDTO = new Products();
         productDTO.setProductId(null);
