@@ -1,10 +1,12 @@
 package fpoly.datn.ecommerce_website.dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -24,7 +26,7 @@ public class UserDTO {
 
     private String fullName;
 
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
 
     private String account;

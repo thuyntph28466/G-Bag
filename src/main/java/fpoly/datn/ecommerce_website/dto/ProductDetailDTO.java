@@ -41,6 +41,7 @@ public class ProductDetailDTO {
     private Compartments compartment;
     private BuckleTypes buckleType;
     private Producers producer;
+    private Integer quantity;
 
 
 

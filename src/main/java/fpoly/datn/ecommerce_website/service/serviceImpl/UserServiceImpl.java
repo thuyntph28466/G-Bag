@@ -62,4 +62,9 @@ public class UserServiceImpl implements IUserService {
         userRepository.deleteById(id);
         return "Delete successfully";
     }
+
+    @Override
+    public Users findByPhoneNumberEquals(String phoneNumber) {
+        return userRepository.findByPhoneNumberEquals(phoneNumber);
+    }
 }

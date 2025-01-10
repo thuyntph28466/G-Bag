@@ -63,11 +63,7 @@ public Page<ProductDetails> getProductDetailsWithoutDelete(
         @Param("productDetailStatus") Integer productDetailStatus,
         Pageable pageable);
 
-    //@Query("SELECT b from ProductDetails b " +
-//        " where b.product.productName  LIKE  '%'upper(:productName)'%'")
-//    public Page<ProductDetails> getProductDetailsWithoutDelete(
-//            @Param("productName") String productName,
-//            Pageable pageable);
+
     @Query("SELECT bd FROM Products b JOIN ProductDetails bd ON b.productId = bd.product.productId  " +
             "WHERE  bd.productDetailStatus = 1 " +
             "AND bd.productDetailAmount > 0 " +

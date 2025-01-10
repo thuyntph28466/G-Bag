@@ -53,5 +53,5 @@ public interface IProductRepository extends JpaRepository<Products, String> {
     List<Products> searchProductsByKeywordOrBrandOrMaterial(String keyword);
 
     Optional<Products> findByProductCode(String productCode);
-
+boolean existsByProductCode(String productCode);
 }

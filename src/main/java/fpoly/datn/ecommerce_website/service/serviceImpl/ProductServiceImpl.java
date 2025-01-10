@@ -7,6 +7,7 @@ import fpoly.datn.ecommerce_website.repository.IProductRepository;
 import fpoly.datn.ecommerce_website.service.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -137,5 +138,12 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Products> searchByName(String name) {
         return null;
+    }
+
+
+
+    @Override
+    public boolean existsByProductCode(String productCode) {
+        return iproductRepository.existsByProductCode(productCode);
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,7 +71,9 @@ public class UserRestController {
         // Chuyển đổi từ DTO sang Entity
         Users user = modelMapper.map(userDTO, Users.class);
         user.setUserId(null);  // Không cần set userId nếu là UUID tự động
-
+if (user.getRoleName()==null || user.getRoleName().isBlank()){
+    user.setRoleName("User");
+}
         Users savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -110,6 +113,8 @@ public class UserRestController {
                 "Delete Successfuly"
                 , HttpStatus.OK);
     }
-
-
+@GetMapping(value = "/users/phone")
+public Users findByPhoneNumberEquals(@RequestParam String phoneNumber) {
+        return userService.findByPhoneNumberEquals(phoneNumber);
+    }
 }

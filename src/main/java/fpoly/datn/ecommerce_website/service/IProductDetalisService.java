@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IProductDetalisService {
+    ProductDetails  save(ProductDetails entity);
+
     List<ProductDetailDTO> findAll();
 
     Page<ProductDetailDTO> findAllPagination(

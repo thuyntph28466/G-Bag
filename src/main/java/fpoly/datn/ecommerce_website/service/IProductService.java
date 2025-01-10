@@ -41,5 +41,7 @@ public interface IProductService {
     String delete(String id);
 
     List<Products> searchByName(String name);
+
+    boolean existsByProductCode(String productCode);
 }
 

@@ -18,4 +18,6 @@ public interface IUserService {
     Users update(Users entity);
 
     String delete(String id);
+
+    Users findByPhoneNumberEquals(String phoneNumber);
 }

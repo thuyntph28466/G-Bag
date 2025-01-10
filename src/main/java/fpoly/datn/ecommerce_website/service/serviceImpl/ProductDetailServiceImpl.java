@@ -27,6 +27,11 @@ public class ProductDetailServiceImpl implements IProductDetalisService {
     @Autowired
     private IProductDetailRepository iProductDetailRepository;
 
+    @Override
+    public ProductDetails  save(ProductDetails entity) {
+        return iProductDetailRepository.save(entity);
+    }
+
     @Autowired
     private ModelMapper modelMapper;
     private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {

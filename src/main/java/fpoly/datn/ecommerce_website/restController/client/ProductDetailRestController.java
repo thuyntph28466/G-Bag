@@ -96,8 +96,8 @@ private ProductServiceImpl productService;
             @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder
     ) {
         if (pageNum == null || pageSize == null) {
-            return new ResponseEntity<>
-                    (this.productDetailService.findAll(), HttpStatus.OK);
+         pageNum = 0 ;
+         pageSize=100;
         }
         Page<ProductDetailDTO> productPage = productDetailService.findAllPagination(
                 pageNum,
@@ -131,6 +131,47 @@ private ProductServiceImpl productService;
     //add
     @RequestMapping(value = "/product-details", method = RequestMethod.POST, consumes = "multipart/form-data")
     public ResponseEntity<?> save(@Valid @ModelAttribute ProductDetailDTO productDetailDTO,@RequestParam("image") MultipartFile image) {
+      if(productDetailDTO.getImportPrice().doubleValue()>productDetailDTO.getRetailPrice().doubleValue()){
+          return new ResponseEntity<>(
+                  "Giá bán phải lớn hơn giá nhập "
+                  , HttpStatus.BAD_REQUEST);
+      }
+        if(productDetailDTO.getImportPrice().doubleValue()<=0){
+            return new ResponseEntity<>(
+                    "Giá nhập phải lớn hơn 0 "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productDetailDTO.getRetailPrice().doubleValue()<=0){
+            return new ResponseEntity<>(
+                    "Giá bán phải lớn hơn 0 "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productDetailDTO.getProductDetailAmount().doubleValue()<=0){
+            return new ResponseEntity<>(
+                    "Số Lượng lớn hơn 0 "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productService.existsByProductCode(productDetailDTO.getProduct().getProductCode())){
+            return new ResponseEntity<>(
+                    "Mã balo đã tồn tại "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productDetailDTO.getProduct().getProductCode().trim().isEmpty()){
+            return new ResponseEntity<>(
+                    "Mã balo không được để trống "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productDetailDTO.getProduct().getProductCode().trim().isEmpty()){
+            return new ResponseEntity<>(
+                    "Mã balo không được để trống "
+                    , HttpStatus.BAD_REQUEST);
+        }
+        if(productDetailDTO.getProduct().getProductName().trim().isEmpty()){
+            return new ResponseEntity<>(
+                    "Tên balo không được để trống "
+                    , HttpStatus.BAD_REQUEST);
+        }
+       
         System.out.println(productDetailDTO);
         Products productDTO = new Products();
         productDTO.setProductId(null);
@@ -155,7 +196,6 @@ private ProductServiceImpl productService;
         productDetails.setProductDetailId(productDetailDTO1.getProductDetailId());
         imageDTO.setProductDetails(productDetails);
         imagesService.save(imageDTO);
-
 
         return new ResponseEntity<>(
                 productDetailDTO
