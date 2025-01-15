@@ -81,13 +81,13 @@ public class Bills {
     private Double billPriceAfterVoucher;
 
 
-    @Column(name = "shipping_address")
+    @Column(name = "shipping_address",columnDefinition = "NVARCHAR(MAX)")
     private String shippingAddress;
 
-    @Column(name = "billing_adress")
+    @Column(name = "billing_adress",columnDefinition = "NVARCHAR(MAX)")
     private String billingAddress;
 
-    @Column(name = "receiver_name")
+    @Column(name = "receiver_name",columnDefinition = "NVARCHAR(MAX)")
     private String receiverName;
 
     @Column(name = "ship_price")
@@ -102,7 +102,7 @@ public class Bills {
     @Column(name = "payment_method")
     private Integer paymentMethod;
 
-    @Column(name = "bill_note")
+    @Column(name = "bill_note",columnDefinition = "NVARCHAR(MAX)")
     private String billNote;
 
     @Column(name = "bill_status")

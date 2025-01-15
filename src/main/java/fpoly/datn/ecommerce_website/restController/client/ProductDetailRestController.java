@@ -47,8 +47,8 @@ public class ProductDetailRestController {
 
     @Autowired
     private ProductDetailServiceImpl productDetailService;
-@Autowired
-private ProductServiceImpl productService;
+    @Autowired
+    private ProductServiceImpl productService;
 
     @Autowired
     private IImagesService imagesService;
@@ -130,7 +130,7 @@ private ProductServiceImpl productService;
 
     //add
     @RequestMapping(value = "/product-details", method = RequestMethod.POST, consumes = "multipart/form-data")
-    public ResponseEntity<?> save(@Valid @ModelAttribute ProductDetailDTO productDetailDTO,@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<?> save(@Valid @ModelAttribute ProductDetailDTO productDetailDTO,@RequestParam(value = "image",required = false) MultipartFile image) {
       if(productDetailDTO.getImportPrice().doubleValue()>productDetailDTO.getRetailPrice().doubleValue()){
           return new ResponseEntity<>(
                   "Giá bán phải lớn hơn giá nhập "
@@ -151,11 +151,7 @@ private ProductServiceImpl productService;
                     "Số Lượng lớn hơn 0 "
                     , HttpStatus.BAD_REQUEST);
         }
-        if(productService.existsByProductCode(productDetailDTO.getProduct().getProductCode())){
-            return new ResponseEntity<>(
-                    "Mã balo đã tồn tại "
-                    , HttpStatus.BAD_REQUEST);
-        }
+
         if(productDetailDTO.getProduct().getProductCode().trim().isEmpty()){
             return new ResponseEntity<>(
                     "Mã balo không được để trống "
@@ -178,24 +174,67 @@ private ProductServiceImpl productService;
         productDTO.setProductName(productDetailDTO.getProduct().getProductName());
         productDTO.setProductCode(productDetailDTO.getProduct().getProductCode());
         productDTO.setBrand(productDetailDTO.getProduct().getBrand());
-        Products productsaved = productService.save(productDTO);
-        productDetailDTO.setProduct(productsaved);
-        ImageDTO imageDTO = new ImageDTO();
-        imageDTO.setImageId(null);
-        imageDTO.setIsPrimary(Boolean.TRUE);
-        try {
-            imageDTO.setData(new SerialBlob(image.getBytes()));
-        } catch (SQLException|IOException e ) {
-            return new ResponseEntity<>(
-                    "Thêm không thành công kiểm tra lại ảnh"
-                    , HttpStatus.OK);
+        productDTO.setType(productDetailDTO.getProduct().getType());
+        productDTO.setMaterial(productDetailDTO.getProduct().getMaterial());
+        productDTO.setSize(productDetailDTO.getProduct().getSize());
+        productDTO.setCompartment(productDetailDTO.getProduct().getCompartment());
+        productDTO.setBuckleType(productDetailDTO.getProduct().getBuckleType());
+         productDTO.setProducer(productDetailDTO.getProduct().getProducer());
+        productDTO.setProductStatus(productDetailDTO.getProduct().getProductStatus());
+
+
+
+        if (productDetailDTO.getProduct().getProductId().isBlank()){
+
+            if(productService.existsByProductCode(productDetailDTO.getProduct().getProductCode())){
+                return new ResponseEntity<>(
+                        "Mã balo đã tồn tại "
+                        , HttpStatus.BAD_REQUEST);
+            }
+            Products productsaved = productService.save(productDTO);
+            productDetailDTO.setProduct(productsaved);
         }
-        productDetailDTO.setProductDetailId(null);
+
+
+
+           var productDetailInDB =  productDetailService.findByProductProductIdAndColorColorId(productDetailDTO.getProduct().getProductId(),productDetailDTO.getColor().getColorId());
+          if (productDetailInDB!=null){
+              productDetailDTO.setProductDetailId(productDetailInDB.getProductDetailId());
+
+          }else{
+              productDetailDTO.setProductDetailId(null);
+          }
+
+
+
+        ImageDTO imageDTO = new ImageDTO();
+
+        if (image == null || image.isEmpty()) {
+
+        }else {
+            imageDTO.setImageId(null);
+            imageDTO.setIsPrimary(Boolean.TRUE);
+            try {
+                imageDTO.setData(new SerialBlob(image.getBytes()));
+            } catch (SQLException|IOException e ) {
+                return new ResponseEntity<>(
+                        "Thêm không thành công kiểm tra lại ảnh"
+                        , HttpStatus.OK);
+            }
+        }
+
+
         ProductDetailDTO productDetailDTO1 =  productDetailService.save(productDetailDTO);
         ProductDetails productDetails = new ProductDetails();
         productDetails.setProductDetailId(productDetailDTO1.getProductDetailId());
-        imageDTO.setProductDetails(productDetails);
-        imagesService.save(imageDTO);
+        if (!(image == null || image.isEmpty())) {
+            imageDTO.setProductDetails(productDetails);
+            imagesService.deleteAllByProductDetailsProductDetailId(productDetailDTO1.getProductDetailId());
+            imagesService.save(imageDTO);
+        }
+
+
+
 
         return new ResponseEntity<>(
                 productDetailDTO

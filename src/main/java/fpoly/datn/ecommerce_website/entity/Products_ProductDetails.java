@@ -30,7 +30,7 @@ public class Products_ProductDetails {
     @Column(name = "product_code")
     private String productCode;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name",columnDefinition = "NVARCHAR(255)")
     private String productName;
 
     @Column(name = "product_status")

@@ -26,14 +26,14 @@ public interface IProductDetailRepository extends JpaRepository<ProductDetails, 
             " where ( :productName IS NULL OR  upper(b.product.productName) like '%'+upper(:productName)+'%') " +
             " and  ( :productCode IS NULL OR upper(b.product.productCode) like '%'+upper(:productCode)+'%')  " +
             " and  ( :colorName IS NULL OR upper(b.color.colorName) like '%'+upper(:colorName)+'%' )" +
-            " and  ( :typeName IS NULL OR upper(b.type.typeName) like '%'+upper(:typeName)+'%' ) " +
-            " and  ( :materialName IS NULL OR upper(b.material.materialName) like '%'+upper(:materialName)+'%' ) " +
-            " and  ( :sizeName IS NULL OR upper(b.size.sizeName) like '%'+upper(:sizeName)+'%' ) " +
+            " and  ( :typeName IS NULL OR upper(b.product.type.typeName) like '%'+upper(:typeName)+'%' ) " +
+            " and  ( :materialName IS NULL OR upper(b.product.material.materialName) like '%'+upper(:materialName)+'%' ) " +
+            " and  ( :sizeName IS NULL OR upper(b.product.size.sizeName) like '%'+upper(:sizeName)+'%' ) " +
             " and  ( :brandName IS NULL OR upper(b.product.brand.brandName) like '%'+upper(:brandName)+'%' ) " +
-            " and  ( :compartmentName IS NULL OR upper(b.compartment.compartmentName)  like '%'+upper(:compartmentName)+'%' ) " +
-            " and  ( :producerName IS NULL OR upper(b.producer.producerName) like '%'+upper(:producerName)+'%' ) "  +
-            " and  ( :producerName IS NULL OR upper(b.producer.producerName) like '%'+upper(:producerName)+'%' ) "  +
-            " and  ( :buckleTypeName IS NULL OR upper(b.buckleType.buckleTypeName) like '%'+upper(:buckleTypeName)+'%' ) "  +
+            " and  ( :compartmentName IS NULL OR upper(b.product.compartment.compartmentName)  like '%'+upper(:compartmentName)+'%' ) " +
+            " and  ( :producerName IS NULL OR upper(b.product.producer.producerName) like '%'+upper(:producerName)+'%' ) "  +
+            " and  ( :producerName IS NULL OR upper(b.product.producer.producerName) like '%'+upper(:producerName)+'%' ) "  +
+            " and  ( :buckleTypeName IS NULL OR upper(b.product.buckleType.buckleTypeName) like '%'+upper(:buckleTypeName)+'%' ) "  +
             " and  ( :productDetailDescribe IS NULL OR upper(b.productDetailDescribe) like '%'+upper(:productDetailDescribe)+'%' )  " +
             "and (:minProductDetailAmount IS NULL OR b.productDetailAmount >= :minProductDetailAmount) " +
             "and (:maxProductDetailAmount IS NULL OR b.productDetailAmount <= :maxProductDetailAmount) " +
@@ -71,19 +71,24 @@ public Page<ProductDetails> getProductDetailsWithoutDelete(
             "OR b.productId LIKE %:keyword% " +
             "OR b.productName LIKE %:keyword% " +
             "OR bd.color.colorName LIKE %:keyword% " +
-            "OR bd.type.typeName LIKE %:keyword% " +
-            "OR bd.material.materialName LIKE %:keyword% " +
-            "OR bd.size.sizeName LIKE %:keyword% " +
+            "OR bd.product.type.typeName LIKE %:keyword% " +
+            "OR bd.product.material.materialName LIKE %:keyword% " +
+            "OR bd.product.size.sizeName LIKE %:keyword% " +
             "OR b.brand.brandName LIKE %:keyword% " +
-            "OR bd.compartment.compartmentName LIKE %:keyword% " +
-            "OR bd.buckleType.buckleTypeName LIKE %:keyword% " +
-            "OR bd.producer.producerName LIKE %:keyword% " +
+            "OR bd.product.compartment.compartmentName LIKE %:keyword% " +
+            "OR bd.product.buckleType.buckleTypeName LIKE %:keyword% " +
+            "OR bd.product.producer.producerName LIKE %:keyword% " +
             "OR bd.productDetailDescribe LIKE %:keyword% ) "
 
 //            "OR bd.importPrice = cast(:keyword as int ) " +
 //            "or (:keyword = '' or (CAST(:keyword AS int) IS NULL AND bd.retailPrice =CAST(:keyword AS int))) "
     )
     List<ProductDetails> findByKeyword(@Param("keyword") String keyword);
+
+
+    boolean existsByProductProductIdAndColorColorId(String productId, String colorId);
+
+    ProductDetails findByProductProductIdAndColorColorId(String productId, String colorId);
 
     @Query("SELECT bd.productDetails.product, SUM(bd.amount) as totalSold " +
             "FROM BillDetails bd " +

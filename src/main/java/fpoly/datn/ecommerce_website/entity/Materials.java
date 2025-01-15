@@ -28,7 +28,7 @@ public class Materials {
     @Column(name = "material_code")
     private String materialCode;
 
-    @Column(name = "material_name")
+    @Column(name = "material_name",columnDefinition = "NVARCHAR(255)")
     private String materialName;
 
     @Column(name = "material_status")

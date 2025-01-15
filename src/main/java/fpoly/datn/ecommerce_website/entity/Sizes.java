@@ -30,7 +30,7 @@ public class Sizes {
     @Column(name = "size_code")
     private String sizeCode;
 
-    @Column(name = "size_name")
+    @Column(name = "size_name",columnDefinition = "NVARCHAR(255)")
     private String sizeName;
 
     @Column(name = "size_length")

@@ -1,12 +1,18 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.CartDTO;
+import fpoly.datn.ecommerce_website.entity.Cart;
+import fpoly.datn.ecommerce_website.entity.ProductDetails;
+import fpoly.datn.ecommerce_website.entity.Users;
 import fpoly.datn.ecommerce_website.repository.ICartRepository;
 import fpoly.datn.ecommerce_website.service.CartService;
+import fpoly.datn.ecommerce_website.service.IUserService;
+import fpoly.datn.ecommerce_website.service.serviceImpl.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -24,6 +32,10 @@ public class CartRestController {
 
     @Autowired
     private ICartRepository iCartRepository;
+    @Autowired
+    private IUserService iUserService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     ///GetOne
     @RequestMapping(value = "/cart/{cartId}", method = RequestMethod.GET)
@@ -34,6 +46,38 @@ public class CartRestController {
         } else {
             return ResponseEntity.ok("Không tìm thấy ID !!!");
         }
+    }
+
+    @RequestMapping(value = "/cart/self", method = RequestMethod.POST)
+    public ResponseEntity<?> add(@RequestParam String productDetailId,Authentication authentication) {
+        Users user = iUserService.findByAccount(authentication.getName());
+        if (!iUserService.existsById(user.getUserId())) {
+            return ResponseEntity.badRequest().body("Cần đăng nhập đúng tài khoản khách hàng");
+        }
+        Cart cart = new Cart();
+        cart.setCartStatus(1);
+        cart.setAmount(1);
+        cart.setUser(user);
+        ProductDetails productDetails= new ProductDetails();
+        productDetails.setProductDetailId(productDetailId);
+        cart.setProductDetails(productDetails);
+        if (cartService.existsByCustomerIdAndProductDetailsProductDetailId(user.getUserId(), productDetails.getProductDetailId())) {
+            return ResponseEntity.badRequest().body("Sản phẩm đã có trong giỏ hàng");
+        }
+        return new ResponseEntity<>(this.cartService.save(cart), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/cart/self", method = RequestMethod.GET)
+    public ResponseEntity<?> getCartDetails( Authentication authentication) {
+        Users user = iUserService.findByAccount(authentication.getName());
+        if (!iUserService.existsById(user.getUserId())) {
+            return ResponseEntity.badRequest().body("Cần đăng nhập đúng tài khoản khách hàng");
+        }
+        List<Cart> carts = cartService.getAllCartsByCustomerId(user.getUserId());
+        for (Cart cart:carts) {
+            cart.setUser(null);
+        }
+        return ResponseEntity.ok(carts);
     }
 
     @GetMapping("/carts/{customerId}")
@@ -58,7 +102,7 @@ public class CartRestController {
     //
     //Add
     @RequestMapping(value = "/cart", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody CartDTO cartDTO) {
+    public ResponseEntity<?> add2(@RequestBody CartDTO cartDTO) {
         return new ResponseEntity<>(this.cartService.save(cartDTO), HttpStatus.OK);
     }
 

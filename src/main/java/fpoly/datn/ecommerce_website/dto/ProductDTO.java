@@ -1,9 +1,7 @@
 package fpoly.datn.ecommerce_website.dto;
 
 
-import fpoly.datn.ecommerce_website.entity.Brands;
-import fpoly.datn.ecommerce_website.entity.Images;
-import fpoly.datn.ecommerce_website.entity.ProductDetails;
+import fpoly.datn.ecommerce_website.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +29,13 @@ public class ProductDTO {
     private Integer productStatus;
 
     private Brands brand;
+
+    private Types type;
+    private Materials material;
+    private Sizes size;
+    private Compartments compartment;
+    private BuckleTypes buckleType;
+    private Producers producer;
     
     private List<ProductDetails> productDetails;
 }

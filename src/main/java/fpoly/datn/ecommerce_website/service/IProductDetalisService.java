@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IProductDetalisService {
+    boolean existsByProductProductIdAndColorColorId(String productId, String colorId);
+
     ProductDetails  save(ProductDetails entity);
 
     List<ProductDetailDTO> findAll();
@@ -35,6 +37,8 @@ public interface IProductDetalisService {
             List<String> sortList,
             String sortOrder
     );
+
+    List<ProductDetails> saveAll(List<ProductDetails> entities);
 
     List<ProductDetails> findAllByProductCode(String baloID);
 

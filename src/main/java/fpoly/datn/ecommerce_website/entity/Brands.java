@@ -31,7 +31,7 @@ public class Brands {
     @Column(name = "brand_code")
     private String brandCode;
 
-    @Column(name = "brand_name")
+    @Column(name = "brand_name",columnDefinition = "NVARCHAR(255)")
     private String brandName;
 
     @Column(name = "brand_status")

@@ -51,6 +51,6 @@ public class BillDetails {
     @Column(name = "bill_detail_status")
     private Integer billDetailStatus;
 
-    @Column(name = "bill_detail_note")
+    @Column(name = "bill_detail_note",columnDefinition = "NVARCHAR(MAX)")
     private String billDetailNote;
 }

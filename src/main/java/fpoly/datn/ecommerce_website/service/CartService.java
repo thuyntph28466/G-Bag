@@ -13,9 +13,15 @@ public interface CartService {
 
     List<Cart> findAll(String cartId);
 
+    boolean existsByCustomerIdAndProductDetailsProductDetailId(String customerId, String productDetailId);
+
+    List<Cart> getAllCartsByCustomerId(String userId);
+
     Cart findById(String id);
 
     Cart save(CartDTO cartDTO);
+
+    Cart save(Cart cart);
 
     Cart update(CartDTO cartDTO, String id);
 

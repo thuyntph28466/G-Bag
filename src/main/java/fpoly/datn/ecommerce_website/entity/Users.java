@@ -32,7 +32,7 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String userId;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name",columnDefinition = "NVARCHAR(MAX)")
     private String fullName;
 
     @Column(name = "birthday")
@@ -56,10 +56,10 @@ public class Users {
     @Column(name = "gender")
     private Boolean gender;
 
-    @Column(name = "address")
+    @Column(name = "address",columnDefinition = "NVARCHAR(MAX)")
     private String address;
 
-    @Column(name = "user_note")
+    @Column(name = "user_note",columnDefinition = "NVARCHAR(MAX)")
     private String userNote;
 
     @Column(name = "role_name")

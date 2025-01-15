@@ -37,7 +37,7 @@ public class Products {
     @Column(name = "product_code")
     private String productCode;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name",columnDefinition = "NVARCHAR(MAX)")
     private String productName;
 
     @Column(name = "product_status")
@@ -47,10 +47,33 @@ public class Products {
     @JoinColumn(name = "brand_id")
     private Brands brand;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Types type;
+
+    @ManyToOne
+    @JoinColumn(name = "material_id")
+    private Materials material;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Sizes size;
+
+    @ManyToOne
+    @JoinColumn(name = "compartment_id")
+    private Compartments compartment;
+
+    @ManyToOne
+    @JoinColumn(name = "buckle_type_id")
+    private BuckleTypes buckleType;
+
+    @ManyToOne
+    @JoinColumn(name = "producer_id")
+    private Producers producer;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    @JsonManagedReference
-    @JsonIgnoreProperties("product")
+
     private List<ProductDetails> productDetails;
 
 }

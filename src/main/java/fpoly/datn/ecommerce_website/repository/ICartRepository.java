@@ -14,4 +14,6 @@ public interface ICartRepository extends JpaRepository<Cart, String> {
     @Query("select c from Cart c  " +
             "where c.user.userId=:userId")
     List<Cart> getAllCartsByCustomerId(@Param("userId") String userId);
+
+    boolean existsByUserUserIdAndProductDetailsProductDetailId(@Param("userId") String customerId, @Param("productDetailId") String productDetailId);
 }

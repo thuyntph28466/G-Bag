@@ -48,6 +48,7 @@ public class ProductRestController {
             @RequestParam(name = "size", required = false) Integer pageSize,
             @RequestParam(name = "productName", required = false, defaultValue = "") String productName,
             @RequestParam(name = "productCode", required = false, defaultValue = "") String productCode,
+            @RequestParam(name = "brandCode", required = false, defaultValue = "") String brandCode,
             @RequestParam(name = "brandName", required = false, defaultValue = "") String brandName,
             @RequestParam(name = "productStatus", required = false, defaultValue = "") Integer productStatus,
             @RequestParam(defaultValue = "") List<String> sortList,
@@ -62,6 +63,7 @@ public class ProductRestController {
                 pageSize,
                 productName,
                 productCode,
+                brandCode,
                 brandName,
                 productStatus,
                 sortList,
@@ -77,6 +79,7 @@ public class ProductRestController {
                 modelMapper.map(this.productService.findById(id), ProductDTO.class)
                 , HttpStatus.OK);
     }
+
     @RequestMapping(value = "/product/findMa", method = RequestMethod.GET)
     public ResponseEntity<?> getMa(@RequestParam("ma") String ma) {
         return new ResponseEntity<>(
@@ -85,9 +88,9 @@ public class ProductRestController {
     }
     //add
     @RequestMapping(value = "/product", method = RequestMethod.POST)
-    public ResponseEntity<?> add(@Valid @RequestBody Product_BrandDTO productBrandDTO) {
-        Products product = modelMapper.map(productBrandDTO, Products.class);
-product.setProductId(null);
+    public ResponseEntity<?> add(@Valid @RequestBody ProductDTO productDTO) {
+        Products product = modelMapper.map(productDTO, Products.class);
+        product.setProductId(null);
         return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
     }
 
@@ -100,10 +103,20 @@ product.setProductId(null);
 
     //update
     @RequestMapping(value = "/product", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@Valid @RequestBody ProductDTO productDTO) {
-        return new ResponseEntity<>(productService.save(
-                modelMapper.map(productDTO, Products.class)
+    public ResponseEntity<?> update(@Valid @RequestBody Products product) {
+        Products productsDB = productService.findById(product.getProductId());
+        productsDB.setProductName(product.getProductName());
+        productsDB.setProductStatus(product.getProductStatus());
+        productsDB.setBrand(product.getBrand());
+        productsDB.setBuckleType(product.getBuckleType());
+        productsDB.setCompartment(product.getCompartment());
+        productsDB.setMaterial(product.getMaterial());
+        productsDB.setProducer(product.getProducer());
+        productsDB.setSize(product.getSize());
+        productsDB.setType(product.getType());
 
+        return new ResponseEntity<>(productService.save(
+                productsDB
         ), HttpStatus.OK);
     }
 

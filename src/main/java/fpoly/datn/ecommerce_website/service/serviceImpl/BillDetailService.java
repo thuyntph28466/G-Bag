@@ -36,6 +36,11 @@ public class BillDetailService implements IBillDetailService {
     }
 
     @Override
+    public List<BillDetails> findAllByBillsBillId(String billsBillId) {
+        return iBillDetailsReponsitory.findAllByBillsBillId(billsBillId);
+    }
+
+    @Override
     @Deprecated
     public void deleteInBatch(Iterable<BillDetails> entities) {
         iBillDetailsReponsitory.deleteInBatch(entities);

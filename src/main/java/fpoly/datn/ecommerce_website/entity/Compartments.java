@@ -29,7 +29,7 @@ public class Compartments {
     @Column(name = "compartment_code")
     private String compartmentCode;
 
-    @Column(name = "compartment_name")
+    @Column(name = "compartment_name",columnDefinition = "NVARCHAR(255)")
     private String compartmentName;
 
     @Column(name = "compartment_status")

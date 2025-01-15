@@ -1,6 +1,7 @@
 package fpoly.datn.ecommerce_website.restController.client;
 
 import fpoly.datn.ecommerce_website.dto.BrandDTO;
+import fpoly.datn.ecommerce_website.dto.ChangePassworDTO;
 import fpoly.datn.ecommerce_website.dto.ColorDTO;
 import fpoly.datn.ecommerce_website.dto.UserDTO;
 import fpoly.datn.ecommerce_website.entity.Brands;
@@ -15,16 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 @RestController
 public class UserRestController {
@@ -53,6 +48,16 @@ public class UserRestController {
                 (brandPage, HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/user/info", method = RequestMethod.GET)
+    public ResponseEntity<?> info(
+    ) {
+        Users  user = userService.myInfo();
+        return new ResponseEntity<>
+                (user, HttpStatus.OK);
+    }
+
+
     //GetOne
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDTO> getOne(@Valid @RequestParam String id) {
@@ -74,8 +79,43 @@ public class UserRestController {
 if (user.getRoleName()==null || user.getRoleName().isBlank()){
     user.setRoleName("User");
 }
+if(userService.findByPhoneNumberEquals(user.getPhoneNumber())!=null ){
+    return new ResponseEntity<>("Số điện thoại đã tồn tại", HttpStatus.BAD_REQUEST);
+}
         Users savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+
+
+    @RequestMapping(value = "/user/changepassword", method = RequestMethod.POST)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePassworDTO changePassworđTO) {
+
+        // Cập nhật đối tượng Brand trong service
+        boolean isDone = this.userService.changePassword(changePassworđTO.getPassword(),changePassworđTO.getNewPassword());
+
+        if (isDone == false) {
+            // Nếu không tìm thấy đối tượng để cập nhật, trả về mã lỗi 404
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Nếu cập nhật thành công, trả về đối tượng cập nhật và mã trạng thái OK
+        return new ResponseEntity<>(isDone, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/update", method = RequestMethod.PUT)
+    public ResponseEntity<Users> updateProfile(@RequestBody UserDTO brandDTO) {
+
+        // Cập nhật đối tượng Brand trong service
+        Users updatedBrand = this.userService.updateProfile(brandDTO);
+
+        if (updatedBrand == null) {
+            // Nếu không tìm thấy đối tượng để cập nhật, trả về mã lỗi 404
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Nếu cập nhật thành công, trả về đối tượng cập nhật và mã trạng thái OK
+        return new ResponseEntity<>(updatedBrand, HttpStatus.OK);
     }
 
 

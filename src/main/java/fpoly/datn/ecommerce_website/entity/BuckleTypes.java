@@ -29,7 +29,7 @@ public class BuckleTypes {
     @Column(name = "buckle_type_code")
     private String buckleTypeCode;
 
-    @Column(name = "buckle_type_name")
+    @Column(name = "buckle_type_name",columnDefinition = "NVARCHAR(255)")
     private String buckleTypeName;
 
     @Column(name = "buckle_type_status")

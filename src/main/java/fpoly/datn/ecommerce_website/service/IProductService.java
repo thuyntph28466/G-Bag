@@ -20,6 +20,7 @@ public interface IProductService {
             int PageSize,
             String productName,
             String productCode,
+            String brandCode,
             String brandName,
             Integer productStatus,
             List<String> sortList,

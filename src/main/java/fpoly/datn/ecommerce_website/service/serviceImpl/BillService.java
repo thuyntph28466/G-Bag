@@ -2,7 +2,6 @@ package fpoly.datn.ecommerce_website.service.serviceImpl;
 
 import fpoly.datn.ecommerce_website.entity.Bills;
 import fpoly.datn.ecommerce_website.repository.IBillsReponsitory;
-import fpoly.datn.ecommerce_website.repository.IBuckleTypeRepository;
 import fpoly.datn.ecommerce_website.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -34,6 +33,11 @@ public class BillService implements IBillService {
     @Override
     public <S extends Bills> List<S> saveAllAndFlush(Iterable<S> entities) {
         return iBillsReponsitory.saveAllAndFlush(entities);
+    }
+
+    @Override
+    public List<Bills> findAllByCustomerUserIdAndBillStatus(String customerId, Integer type) {
+        return iBillsReponsitory.findAllByCustomerUserIdAndBillStatus(customerId, type);
     }
 
     @Override
@@ -92,6 +96,11 @@ public class BillService implements IBillService {
     @Override
     public List<Bills> findAll() {
         return iBillsReponsitory.findAll();
+    }
+
+    @Override
+    public List<Bills> findAllByBillStatus(Integer type) {
+        return iBillsReponsitory.findAllByBillStatus(type);
     }
 
     @Override

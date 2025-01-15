@@ -45,29 +45,6 @@ public class ProductDetails {
     @JoinColumn(name = "color_id")
     private Colors color;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private Types type;
-
-    @ManyToOne
-    @JoinColumn(name = "material_id")
-    private Materials material;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Sizes size;
-
-    @ManyToOne
-    @JoinColumn(name = "compartment_id")
-    private Compartments compartment;
-
-    @ManyToOne
-    @JoinColumn(name = "buckle_type_id")
-    private BuckleTypes buckleType;
-
-    @ManyToOne
-    @JoinColumn(name = "producer_id")
-    private Producers producer;
 
     @Column(name = "import_price")
     private BigDecimal importPrice;
@@ -78,7 +55,7 @@ public class ProductDetails {
     @Column(name = "amount")
     private Integer productDetailAmount;
 
-    @Column(name = "describe")
+    @Column(name = "describe",columnDefinition = "NVARCHAR(MAX)")
     private String productDetailDescribe;
 
     @Column(name = "product_detail_status")

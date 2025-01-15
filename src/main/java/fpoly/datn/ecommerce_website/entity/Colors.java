@@ -32,7 +32,7 @@ public class Colors {
     @Column(name = "color_code")
     private String colorCode;
 
-    @Column(name = "color_name")
+    @Column(name = "color_name",columnDefinition = "NVARCHAR(255)")
     private String colorName;
 
     @Column(name = "color_status")

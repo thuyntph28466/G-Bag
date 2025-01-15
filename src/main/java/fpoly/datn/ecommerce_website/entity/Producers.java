@@ -28,7 +28,7 @@ public class Producers {
     @Column(name = "producer_code")
     private String producerCode;
 
-    @Column(name = "producer_name")
+    @Column(name = "producer_name",columnDefinition = "NVARCHAR(255)")
     private String producerName;
 
     @Column(name = "producer_status")

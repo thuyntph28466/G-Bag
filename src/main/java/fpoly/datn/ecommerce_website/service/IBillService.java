@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 
@@ -19,6 +20,8 @@ public interface IBillService {
     <S extends Bills> S saveAndFlush(S entity);
 
     <S extends Bills> List<S> saveAllAndFlush(Iterable<S> entities);
+
+    List<Bills> findAllByCustomerUserIdAndBillStatus(String customerId, Integer type);
 
     @Deprecated
     void deleteInBatch(Iterable<Bills> entities);
@@ -44,6 +47,8 @@ public interface IBillService {
     <S extends Bills> List<S> saveAll(Iterable<S> entities);
 
     List<Bills> findAll();
+
+    List<Bills> findAllByBillStatus(Integer type);
 
     List<Bills> findAllById(Iterable<String> strings);
 

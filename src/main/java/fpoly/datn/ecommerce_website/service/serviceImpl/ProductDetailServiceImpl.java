@@ -28,6 +28,15 @@ public class ProductDetailServiceImpl implements IProductDetalisService {
     private IProductDetailRepository iProductDetailRepository;
 
     @Override
+    public boolean existsByProductProductIdAndColorColorId(String productId, String colorId) {
+        return iProductDetailRepository.existsByProductProductIdAndColorColorId(productId, colorId);
+    }
+
+    public ProductDetails findByProductProductIdAndColorColorId(String productId, String colorId) {
+        return iProductDetailRepository.findByProductProductIdAndColorColorId(productId, colorId);
+    }
+
+    @Override
     public ProductDetails  save(ProductDetails entity) {
         return iProductDetailRepository.save(entity);
     }
@@ -106,6 +115,11 @@ public class ProductDetailServiceImpl implements IProductDetalisService {
                 .stream().map(product -> modelMapper.map(product, ProductDetailDTO.class))
                 .collect(Collectors.toList());
         return new PageImpl<>(productDTOList, pageRequest, productPage.getTotalElements());
+    }
+
+    @Override
+    public List<ProductDetails> saveAll(List<ProductDetails> entities) {
+        return iProductDetailRepository.saveAll(entities);
     }
 
     @Override

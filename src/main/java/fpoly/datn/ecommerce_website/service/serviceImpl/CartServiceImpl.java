@@ -41,7 +41,15 @@ public class CartServiceImpl implements CartService {
         return iCartRepository.findAll(pageable);
     }
 
+    @Override
+    public boolean existsByCustomerIdAndProductDetailsProductDetailId(String customerId, String productDetailId) {
+        return iCartRepository.existsByUserUserIdAndProductDetailsProductDetailId(customerId, productDetailId);
+    }
 
+    @Override
+    public List<Cart> getAllCartsByCustomerId(String userId) {
+        return iCartRepository.getAllCartsByCustomerId(userId);
+    }
 
     @Override
     public Cart findById(String id) {
@@ -52,6 +60,12 @@ public class CartServiceImpl implements CartService {
     public Cart save(CartDTO cartDTO) {
         Cart cart = modelMapper.map(cartDTO, Cart.class);
 
+        return iCartRepository.save(cart);
+
+    }
+
+    @Override
+    public Cart save(Cart cart) {
         return iCartRepository.save(cart);
 
     }

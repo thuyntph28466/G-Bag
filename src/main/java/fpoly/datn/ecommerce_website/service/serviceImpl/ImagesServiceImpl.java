@@ -6,7 +6,9 @@ import fpoly.datn.ecommerce_website.repository.IImageRepository;
 import fpoly.datn.ecommerce_website.service.IImagesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,13 @@ public class ImagesServiceImpl implements IImagesService {
         return this.iImageRepository.findAll().stream()
                 .map(img -> modelMapper.map(img,ImageDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Modifying
+    @Override
+    public void deleteAllByProductDetailsProductDetailId(String productDetailId) {
+        iImageRepository.deleteAllByProductDetailsProductDetailId(productDetailId);
     }
 
     @Override

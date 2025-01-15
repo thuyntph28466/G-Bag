@@ -18,6 +18,7 @@ import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -35,12 +36,8 @@ public class ProductDetailDTO {
     private Integer productDetailStatus;
     private Products product;
     private Colors color;
-    private Types type;
-    private Materials material;
-    private Sizes size;
-    private Compartments compartment;
-    private BuckleTypes buckleType;
-    private Producers producer;
+    private List<Images> images;
+
     private Integer quantity;
 
 

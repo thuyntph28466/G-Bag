@@ -7,6 +7,10 @@ import fpoly.datn.ecommerce_website.entity.Users;
 import java.util.List;
 
 public interface IUserService {
+    Users findByAccount(String account);
+
+    boolean existsById(String s);
+
     LoginResponse authenticateUser(LoginRequest loginRequest);
     List<Users> findAll();
 
@@ -20,4 +24,5 @@ public interface IUserService {
     String delete(String id);
 
     Users findByPhoneNumberEquals(String phoneNumber);
+
 }

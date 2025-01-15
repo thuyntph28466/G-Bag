@@ -20,6 +20,8 @@ public interface IBillDetailService {
 
     <S extends BillDetails> List<S> saveAllAndFlush(Iterable<S> entities);
 
+    List<BillDetails> findAllByBillsBillId(String billsBillId);
+
     @Deprecated
     void deleteInBatch(Iterable<BillDetails> entities);
 

@@ -31,7 +31,7 @@ public class Types {
     @Column(name = "type_code")
     private String typeCode;
 
-    @Column(name = "type_name")
+    @Column(name = "type_name",columnDefinition = "NVARCHAR(255)")
     private String typeName;
 
     @Column(name = "type_status")

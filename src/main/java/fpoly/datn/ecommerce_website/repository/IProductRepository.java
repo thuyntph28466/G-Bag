@@ -19,26 +19,29 @@ public interface IProductRepository extends JpaRepository<Products, String> {
             " where ( :productStatus IS NULL OR b.productStatus = :productStatus ) " +
             "and ( :productName IS NULL OR  upper(b.productName) like '%'+upper(:productName)+'%') " +
             "and ( :productCode IS NULL OR  upper(b.productCode) like '%'+upper(:productCode)+'%') " +
+            "and ( :brandCode IS NULL OR  b.brand.brandCode =:brandCode) " +
             "and ( :brandName IS NULL OR upper(b.brand.brandName) like '%'+upper(:brandName)+'%' ) " )
 
     public Page<Products> getAllWithoutDelete(
             Pageable pageable,
             @Param("productName") String productName,
             @Param("productCode") String productCode,
+            @Param("brandCode") String brandCode,
             @Param("brandName") String brandName,
             @Param("productStatus") Integer productStatus
     );
 
+
     @Query("SELECT p FROM Products p " +
             "LEFT JOIN p.productDetails pd " +
             "LEFT JOIN p.brand brand " +
-            "LEFT JOIN pd.material material " +
+            "LEFT JOIN p.material material " +
             "LEFT JOIN pd.color color " +
-            "LEFT JOIN pd.size sizes " +
-            "LEFT JOIN pd.type types " +
-            "LEFT JOIN pd.producer producer " +
-            "LEFT JOIN pd.compartment compartment " +
-            "LEFT JOIN pd.buckleType buckleType " +
+            "LEFT JOIN p.size sizes " +
+            "LEFT JOIN p.type types " +
+            "LEFT JOIN p.producer producer " +
+            "LEFT JOIN p.compartment compartment " +
+            "LEFT JOIN p.buckleType buckleType " +
             "WHERE p.productName LIKE %:keyword% " +
             "OR p.productCode LIKE %:keyword% " +
             "OR brand.brandName LIKE %:keyword% " +
